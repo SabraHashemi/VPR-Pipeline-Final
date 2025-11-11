@@ -10,21 +10,7 @@ import torch
 from models.resnet_backbone import build_resnet50
 from models.netvlad_backbone import build_netvlad
 from models.mixvpr_backbone import build_mixvpr
-from utils.image_io import list_from_csv, list_images, load_rgb
-
-def load_dataset_paths(dataset_path):
-    csv_dir = os.path.join(dataset_path, "csv")
-    img_dir = os.path.join(dataset_path, "imgs")
-    if os.path.exists(csv_dir):
-        db_csv = os.path.join(csv_dir, "database.csv")
-        q_csv = os.path.join(csv_dir, "queries.csv")
-        if os.path.exists(db_csv) and os.path.exists(q_csv):
-            print("[INFO] CSV-based dataset detected, reading file paths...")
-            db_paths = list_from_csv(db_csv, img_dir)
-            q_paths = list_from_csv(q_csv, img_dir)
-            return db_paths, q_paths
-    # fallback to folders
-    return list_images(os.path.join(dataset_path, "database")), list_images(os.path.join(dataset_path, "queries"))
+from utils.image_io import load_dataset_paths, list_images, load_rgb
 
 def build_backbone(name='resnet50', pretrained=True, device='cpu'):
     name = name.lower()
@@ -40,9 +26,11 @@ def run_pipeline(args):
     info(f'Using device: {device}')
     logger = WandBLogger(project='VPR_Benchmark', run_name=args.run_name, enabled=not args.no_wandb)
     model = build_backbone(name=args.backbone, pretrained=True, device=device)
-    db_imgs, q_imgs = load_dataset_paths(args.db)
-    if not db_imgs and not q_imgs:
-        warn('Empty db/query folder'); return
+    if args.query:
+        db_imgs = list_images(args.db)
+        q_imgs = list_images(args.query)
+    else:
+        db_imgs, q_imgs = load_dataset_paths(args.db)
     info(f'Extracting descriptors db={len(db_imgs)}, queries={len(q_imgs)}')
     db_desc, db_paths = extract_descriptors(model, db_imgs, batch_size=args.batch, device=device, size=args.size)
     q_desc, q_paths = extract_descriptors(model, q_imgs, batch_size=args.batch, device=device, size=args.size)
