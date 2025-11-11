@@ -47,7 +47,7 @@ python3 src/cli.py pipeline --db example_data/database --query example_data/quer
 ## Run on Google Colab
 Click the badge to open the demo notebook in Colab:
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/SabraHashemi/VPR_Pipeline/blob/main/VPR_Pipeline_Demo.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/SabraHashemi/VPR-Pipeline-Final/blob/main/VPR_Pipeline_Demo.ipynb)
 
 Follow the notebook steps to setup environment, optionally download weights, and run pipeline in GPU-enabled Colab.
 
