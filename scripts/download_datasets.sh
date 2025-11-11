@@ -91,6 +91,7 @@ download_from_drive_folder() {
 
   echo "⬇️  Downloading Google Drive folder for $name ..."
   mkdir -p "$target"
+  cd "$target"
   gdown --folder "https://drive.google.com/drive/folders/${folder_id}" -O "$target"
 
   echo "---------------------------------------------"
