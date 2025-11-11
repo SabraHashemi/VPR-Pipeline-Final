@@ -84,29 +84,26 @@ download_from_drive_folder() {
   local folder_id=$2
   local target="$BASE_DIR/$name"
 
-  if [ -d "$target" ]; then
-    echo "✅ Dataset '$name' already exists at $target — skipping."
-    return
-  fi
-
   echo "⬇️  Downloading Google Drive folder for $name ..."
   mkdir -p "$target"
-  cd "$target"
-  gdown --folder "https://drive.google.com/drive/folders/${folder_id}" -O "$target"
 
-  echo "---------------------------------------------"
-  echo "✅ Downloaded files for $name → $target"
-  echo "---------------------------------------------"
+  # 
+  pushd "$target" >/dev/null
+  gdown --folder "https://drive.google.com/drive/folders/${folder_id}"
+  popd >/dev/null
 
-  # --- Optional: auto-unzip if a zip file exists inside ---
-  zip_file=$(find "$target" -type f -name "*.zip" | head -n 1)
+  echo "✅ Download completed for $name → $target"
+
+  # Auto-extract any zip inside
+  zip_file=$(find "$target" -type f -iname "*.zip" | head -n 1)
   if [ -n "$zip_file" ]; then
-    echo "📂 Extracting ZIP inside folder..."
+    echo "📂 Extracting $zip_file ..."
     unzip -qq "$zip_file" -d "$target"
     rm -f "$zip_file"
     echo "✅ Extracted and cleaned up ZIP."
   fi
 }
+
 
 # --- Download actual datasets ---
 # (Use your real Google Drive folder IDs)
