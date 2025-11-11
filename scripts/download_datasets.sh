@@ -58,7 +58,6 @@
 # echo "Datasets ready under ./datasets/"
 # echo "============================================="
 
-
 #!/usr/bin/env bash
 # ==================================================
 #  Smart Dataset Downloader (Google Drive folders)
@@ -73,12 +72,13 @@ echo "📦  VPR Dataset Auto Downloader (Drive folder)"
 echo "Target folder: $BASE_DIR/"
 echo "============================================="
 
-# make sure gdown is installed
+# --- Ensure gdown is installed ---
 if ! command -v gdown >/dev/null 2>&1; then
-  echo "Installing gdown..."
+  echo "📥 Installing gdown..."
   pip install gdown
 fi
 
+# --- Function: Download from Google Drive folder ---
 download_from_drive_folder() {
   local name=$1
   local folder_id=$2
@@ -97,8 +97,14 @@ download_from_drive_folder() {
   echo "✅ Downloaded files for $name → $target"
   echo "---------------------------------------------"
 
-  # optional: if a ZIP file exists inside, extract it
+  # --- Optional: auto-unzip if a zip file exists inside ---
   zip_file=$(find "$target" -type f -name "*.zip" | head -n 1)
   if [ -n "$zip_file" ]; then
     echo "📂 Extracting ZIP inside folder..."
     unzip -qq "$zip_file" -d "$target"
+    rm -f "$zip_file"
+    echo "✅ Extracted and cleaned up ZIP."
+  fi
+}
+
+# --- Do
