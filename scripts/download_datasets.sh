@@ -48,10 +48,10 @@ download_zip() {
   echo "---------------------------------------------"
 }
 
-download_zip "GSV-XS" "https://github.com/amaralibey/MixVPR/releases/download/data/GSV_xs_sample.zip"
-download_zip "Tokyo-XS" "https://github.com/amaralibey/MixVPR/releases/download/data/Tokyo_xs_sample.zip"
-download_zip "SF-XS" "https://github.com/amaralibey/MixVPR/releases/download/data/SF_xs_sample.zip"
-download_zip "SVOX" "https://github.com/amaralibey/MixVPR/releases/download/data/SVOX_sample.zip"
+download_zip "GSV-XS" "https://drive.google.com/drive/folders/1Ucy9JONT26EjDAjIJFhuL9qeLxgSZKmf/gsv_xs.zip"
+#download_zip "Tokyo-XS" "https://github.com/amaralibey/MixVPR/releases/download/data/Tokyo_xs_sample.zip"
+#download_zip "SF-XS" "https://github.com/amaralibey/MixVPR/releases/download/data/SF_xs_sample.zip"
+#download_zip "SVOX" "https://github.com/amaralibey/MixVPR/releases/download/data/SVOX_sample.zip"
 
 echo "============================================="
 echo "✅ All datasets extracted correctly!"
