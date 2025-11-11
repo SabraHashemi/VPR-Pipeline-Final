@@ -1,0 +1,15 @@
+{
+  "backbone": "resnet50",
+  "mode": "light",
+  "recall_pre": {
+    "recall@1": 1.0,
+    "recall@5": 1.0,
+    "recall@10": 1.0
+  },
+  "recall_post": {
+    "recall@1": 1.0,
+    "recall@5": 1.0,
+    "recall@10": 1.0
+  },
+  "time_sec": 4.060620307922363
+}
