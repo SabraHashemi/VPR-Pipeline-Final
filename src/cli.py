@@ -86,7 +86,7 @@ if __name__ == '__main__':
     sub = p.add_subparsers(dest='cmd')
     pl = sub.add_parser('pipeline')
     pl.add_argument('--db', required=True)
-    pl.add_argument('--query', required=True)
+    pl.add_argument('--query')
     pl.add_argument('--k', type=int, default=5)
     pl.add_argument('--mode', choices=['light','full'], default='light')
     pl.add_argument('--batch', type=int, default=8)
