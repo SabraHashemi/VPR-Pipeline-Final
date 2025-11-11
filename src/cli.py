@@ -41,7 +41,7 @@ def run_pipeline(args):
     logger = WandBLogger(project='VPR_Benchmark', run_name=args.run_name, enabled=not args.no_wandb)
     model = build_backbone(name=args.backbone, pretrained=True, device=device)
     db_imgs, q_imgs = load_dataset_paths(args.db)
-    if not db_imgs or not q_imgs:
+    if not db_imgs and not q_imgs:
         warn('Empty db/query folder'); return
     info(f'Extracting descriptors db={len(db_imgs)}, queries={len(q_imgs)}')
     db_desc, db_paths = extract_descriptors(model, db_imgs, batch_size=args.batch, device=device, size=args.size)
