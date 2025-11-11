@@ -1,6 +1,5 @@
 import argparse, os, json, numpy as np, time
 from utils.logging import info,warn
-from utils.image_io import list_images, load_rgb
 from retrieval.extractor import extract_descriptors
 from retrieval.index_search import build_faiss_index, search_index
 from metrics.retrieval_metrics import compute_all_recalls
@@ -11,6 +10,21 @@ import torch
 from models.resnet_backbone import build_resnet50
 from models.netvlad_backbone import build_netvlad
 from models.mixvpr_backbone import build_mixvpr
+from utils.image_io import list_from_csv, list_images, load_rgb
+
+def load_dataset_paths(dataset_path):
+    csv_dir = os.path.join(dataset_path, "csv")
+    img_dir = os.path.join(dataset_path, "imgs")
+    if os.path.exists(csv_dir):
+        db_csv = os.path.join(csv_dir, "database.csv")
+        q_csv = os.path.join(csv_dir, "queries.csv")
+        if os.path.exists(db_csv) and os.path.exists(q_csv):
+            print("[INFO] CSV-based dataset detected, reading file paths...")
+            db_paths = list_from_csv(db_csv, img_dir)
+            q_paths = list_from_csv(q_csv, img_dir)
+            return db_paths, q_paths
+    # fallback to folders
+    return list_images(os.path.join(dataset_path, "database")), list_images(os.path.join(dataset_path, "queries"))
 
 def build_backbone(name='resnet50', pretrained=True, device='cpu'):
     name = name.lower()
@@ -26,7 +40,7 @@ def run_pipeline(args):
     info(f'Using device: {device}')
     logger = WandBLogger(project='VPR_Benchmark', run_name=args.run_name, enabled=not args.no_wandb)
     model = build_backbone(name=args.backbone, pretrained=True, device=device)
-    db_imgs = list_images(args.db); q_imgs = list_images(args.query)
+    db_imgs, q_imgs = load_dataset_paths(args.db)
     if not db_imgs or not q_imgs:
         warn('Empty db/query folder'); return
     info(f'Extracting descriptors db={len(db_imgs)}, queries={len(q_imgs)}')
