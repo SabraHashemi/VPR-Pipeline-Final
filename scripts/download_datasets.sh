@@ -110,7 +110,7 @@ download_from_drive_folder() {
 
 # --- Download actual datasets ---
 # (Use your real Google Drive folder IDs)
-download_from_drive_folder "GSV-XS" "1Ucy9JONT26EjDAjIJFhuL9qeLxgSZKmf"
+download_from_drive_folder "gsv_xs" "1Ucy9JONT26EjDAjIJFhuL9qeLxgSZKmf"
 # download_from_drive_folder "Tokyo-XS" "YOUR_FOLDER_ID_HERE"
 # download_from_drive_folder "SF-XS" "YOUR_FOLDER_ID_HERE"
 # download_from_drive_folder "SVOX" "YOUR_FOLDER_ID_HERE"
