@@ -79,30 +79,35 @@ if ! command -v gdown >/dev/null 2>&1; then
 fi
 
 # --- Function: Download from Google Drive folder ---
-download_from_drive_folder() {
-  local name=$1
-  local folder_id=$2
-  local target="$BASE_DIR/$name"
+download_from_drive_file() {
+  local name=$1        # e.g. GSV-XS
+  local file_id=$2     # e.g. 1q7usSe9_5xV5zTfN-1In4DlmF5ReyU_A
+  local target="$BASE_DIR/$name"   # datasets/GSV-XS
+  local zip_path="${BASE_DIR}/${name}.zip"  # datasets/GSV-XS.zip
 
-  echo "⬇️  Downloading Google Drive folder for $name ..."
+  echo "⬇️  Downloading ${name}.zip from Google Drive..."
+  mkdir -p "$BASE_DIR"
+
+  # ✅ 
+  gdown "https://drive.google.com/uc?id=${file_id}" -O "$zip_path"
+
+  echo "📂 Extracting..."
   mkdir -p "$target"
+  unzip -qq "$zip_path" -d "$target"
+  rm -f "$zip_path"
 
-  # 
-  pushd "$target" >/dev/null
-  gdown --folder "https://drive.google.com/drive/folders/${folder_id}"
-  popd >/dev/null
-
-  echo "✅ Download completed for $name → $target"
-
-  # Auto-extract any zip inside
-  zip_file=$(find "$target" -type f -iname "*.zip" | head -n 1)
-  if [ -n "$zip_file" ]; then
-    echo "📂 Extracting $zip_file ..."
-    unzip -qq "$zip_file" -d "$target"
-    rm -f "$zip_file"
-    echo "✅ Extracted and cleaned up ZIP."
+  # ✅ 
+  inner_dir=$(find "$target" -mindepth 1 -maxdepth 1 -type d | head -n 1)
+  if [ -n "$inner_dir" ]; then
+    echo "📁 Fixing nested structure..."
+    mv "$inner_dir"/* "$target"/
+    rm -rf "$inner_dir"
   fi
+
+  echo "✅ Extracted cleanly → $target"
+  echo "---------------------------------------------"
 }
+
 
 
 # --- Download actual datasets ---
