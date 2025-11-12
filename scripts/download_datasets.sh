@@ -53,8 +53,8 @@ download_from_drive_file() {
 }
 
 # --- Download datasets ---
-download_from_drive_file "gsv_xs" "1q7usSe9_5xV5zTfN-1In4DlmF5ReyU_A"
-# download_from_drive_file "Tokyo-XS" "YOUR_FILE_ID_HERE"
+#download_from_drive_file "gsv_xs" "1q7usSe9_5xV5zTfN-1In4DlmF5ReyU_A"
+download_from_drive_file "tokyo_xs" "1q7usSe9_5xV5zTfN-1In4DlmF5ReyU_A"
 # download_from_drive_file "SF-XS" "YOUR_FILE_ID_HERE"
 # download_from_drive_file "SVOX" "YOUR_FILE_ID_HERE"
 
