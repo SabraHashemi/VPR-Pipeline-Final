@@ -13,6 +13,10 @@ def build_netvlad(pretrained=False, device='cpu'):
         backbone=nn.Sequential(*modules)
         pool=nn.AdaptiveAvgPool2d((1,1))
         class P(nn.Module):
-            def __init__(self): super().__init__(); self.backbone=backbone; self.pool=pool
+            def __init__(self, device):
+                super().__init__()
+                self.backbone = backbone
+                self.pool = pool
+                self.to(device)
             def forward(self,x): f=self.backbone(x); return self.pool(f).view(x.size(0),-1)
-        return P()
+        return P(device)
